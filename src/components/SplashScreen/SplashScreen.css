@@ -1,0 +1,23 @@
+.splash-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to bottom, #FF6100, #B90039);
+}
+  
+.splash-logo {
+    width: 300px; 
+    height: auto;
+    animation: fadeOut 2.2s ease-in-out;
+}
+  
+@keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+}
+  
