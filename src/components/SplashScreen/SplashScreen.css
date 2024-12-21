@@ -1,23 +1,26 @@
 .splash-screen {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(to bottom, #FF6100, #B90039);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /*background: linear-gradient(to bottom, #FF6100, #B90039);*/
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../../assets/background.png');
+  background-size: cover;
+  background-position: center; 
 }
   
 .splash-logo {
-    width: 300px; 
-    height: auto;
-    animation: fadeOut 2.2s ease-in-out;
+  width: 300px; 
+  height: auto;
+  animation: fadeOut 2.2s ease-in-out;
 }
   
 @keyframes fadeOut {
-    0% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
   

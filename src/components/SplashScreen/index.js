@@ -4,7 +4,7 @@ import "./SplashScreen.css";
 function SplashScreen() {
   return (
     <div className="splash-screen">
-      <img src="/Logo1.png" alt="Logo" className="splash-logo" />
+      <img src="/Logo2.png" alt="Logo" className="splash-logo" />
     </div>
   );
 }
