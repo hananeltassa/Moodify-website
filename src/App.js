@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SplashScreen from "./components/SplashScreen";
-import Home from "./pages/Home";
+import Login from "./pages/Login";
 import useSplashScreen from "./hooks/useSplashScreen"; 
 import "./styles/styles.css";
 
@@ -13,7 +13,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
       </Routes>
     </Router>
   );
