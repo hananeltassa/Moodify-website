@@ -2,19 +2,24 @@ import React, { useContext } from "react";
 import { Card, CardContent, Typography, Box } from "@mui/material";
 import { ThemeContext } from "../../context/ThemeContext";
 
-const DashboardCard = ({ title, value, icon, growth, growthColor }) => {
+const DashboardCard = ({ title, value, icon, growth }) => {
   const { mode } = useContext(ThemeContext);
 
   return (
     <Card
       sx={{
-        background: mode === "dark"
-          ? `linear-gradient(to right, #333, ${growthColor})`
-          : `linear-gradient(to right, #fff, ${growthColor})`,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        padding: 2,
         boxShadow: mode === "dark" ? "0px 4px 10px rgba(0,0,0,0.4)" : "0px 4px 10px rgba(0,0,0,0.1)",
-        borderRadius: 3,
-        width: "100%",
+        borderRadius: "10px",
         height: "150px",
+        backgroundColor: mode === "dark" ? "#1e1e1e" : "#ffffff",
+        transition: "transform 0.2s ease",
+        "&:hover": {
+          transform: "translateY(-3px)",
+        },
       }}
     >
       <CardContent
@@ -25,29 +30,42 @@ const DashboardCard = ({ title, value, icon, growth, growthColor }) => {
           height: "100%",
         }}
       >
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          {/* Icon */}
-          <Box sx={{ fontSize: 30, color: mode === "dark" ? "#fff" : "#000" }}>{icon}</Box>
-
-          {/* Growth */}
+        {/* Icon and Growth Section */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              fontSize: 32,
+              color: mode === "dark" ? "#ffffff" : "#000000",
+            }}
+          >
+            {icon}
+          </Box>
           <Typography
             variant="subtitle2"
             sx={{
-              color: growth > 0 ? "green" : "red",
+              color: growth > 0 ? "#4caf50" : "#f44336",
               fontWeight: "bold",
-              fontSize: "14px",
             }}
           >
             {growth > 0 ? `+${growth}%` : `${growth}%`}
           </Typography>
         </Box>
 
-        {/* Title and Value */}
+        {/* Title and Value Section */}
         <Box>
           <Typography
             variant="subtitle1"
             sx={{
-              color: mode === "dark" ? "rgba(255,255,255,0.7)" : "text.secondary",
+              color: mode === "dark" ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.7)",
+              textTransform: "uppercase",
+              fontSize: "12px",
+              marginBottom: "4px",
             }}
           >
             {title}
@@ -56,7 +74,7 @@ const DashboardCard = ({ title, value, icon, growth, growthColor }) => {
             variant="h5"
             sx={{
               fontWeight: "bold",
-              color: mode === "dark" ? "#fff" : "#000",
+              color: mode === "dark" ? "#ffffff" : "#000000",
             }}
           >
             {value}
