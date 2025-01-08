@@ -1,37 +1,90 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/DashboardLayout";
 import DashboardCard from "../../components/DashboardCard";
 import ChartComponent from "../../components/ChartComponent";
-import { Box } from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Box, CircularProgress, Alert } from "@mui/material";
+import { getSystemAnalytics } from "../../services/analyticsService"; // Create this service
 import PersonIcon from "@mui/icons-material/Person";
-import MessageIcon from "@mui/icons-material/Message";
+import MoodIcon from "@mui/icons-material/Mood";
+import ChallengeIcon from "@mui/icons-material/EmojiEvents";
 
 const Dashboard = () => {
+  const [analytics, setAnalytics] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      try {
+        const token = localStorage.getItem("authToken");
+        const data = await getSystemAnalytics(token);
+        setAnalytics(data.analytics);
+      } catch (err) {
+        setError(err.message || "Error fetching analytics");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAnalytics();
+  }, []);
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <Box sx={{ p: 3, display: "flex", justifyContent: "center" }}>
+          <CircularProgress />
+        </Box>
+      </DashboardLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <DashboardLayout>
+        <Box sx={{ p: 3 }}>
+          <Alert severity="error">{error}</Alert>
+        </Box>
+      </DashboardLayout>
+    );
+  }
+
   const cards = [
     {
       title: "Total Users",
-      value: "714k",
+      value: analytics.users.total,
       icon: <PersonIcon fontSize="large" />,
       growth: 2.6,
     },
     {
-      title: "New Users",
-      value: "1.35m",
+      title: "Banned Users",
+      value: analytics.users.banned,
       icon: <PersonIcon fontSize="large" />,
       growth: -0.1,
     },
     {
-      title: "Purchase Orders",
-      value: "1.72m",
-      icon: <ShoppingCartIcon fontSize="large" />,
-      growth: 2.8,
+      title: "Spotify Connected",
+      value: analytics.users.spotify_connected,
+      icon: <MoodIcon fontSize="large" />,
+      growth: 3.2,
     },
     {
-      title: "Messages",
-      value: "234",
-      icon: <MessageIcon fontSize="large" />,
-      growth: 3.6,
+      title: "Total Challenges",
+      value: analytics.challenges.total,
+      icon: <ChallengeIcon fontSize="large" />,
+      growth: 1.8,
+    },
+    {
+      title: "Completed Challenges",
+      value: analytics.challenges.completed,
+      icon: <ChallengeIcon fontSize="large" />,
+      growth: 4.5,
+    },
+    {
+      title: "Mood Detections",
+      value: analytics.mood_detections.total,
+      icon: <MoodIcon fontSize="large" />,
+      growth: 2.1,
     },
   ];
 
@@ -57,8 +110,8 @@ const Dashboard = () => {
             display: "grid",
             gridTemplateColumns: {
               xs: "repeat(1, 1fr)",
-              sm: "repeat(2, 1fr)",
-              md: "repeat(4, 1fr)",
+              sm: "repeat(3, 1fr)",
+              md: "repeat(5, 1fr)",
             },
             gap: 3,
           }}
@@ -73,7 +126,6 @@ const Dashboard = () => {
             />
           ))}
         </Box>
-
         {/* Charts Section */}
         <Box
           sx={{
