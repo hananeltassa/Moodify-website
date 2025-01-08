@@ -1,32 +1,53 @@
 import React from "react";
-import { Drawer, Toolbar, Typography, List, ListItem, ListItemIcon, ListItemText, Box,} from "@mui/material";
+import { Drawer, Toolbar, List, ListItem, ListItemIcon, ListItemText, Box } from "@mui/material";
+import { Link, useLocation } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
-import Logo from "../../assets/Logo-black.png";
 import LogoBlack from "../../assets/Logo-black.png";
 import LogoWhite from "../../assets/Logo-white.png";
 
 const SidebarComponent = ({ mobileOpen, handleDrawerToggle, drawerWidth, mode }) => {
+  const location = useLocation();
+
   const drawer = (
     <div>
       {/* Toolbar for branding */}
       <Toolbar>
-      {/* Logo */}
-      <img
-        src={mode === "dark" ? LogoWhite : LogoBlack}
-        alt="Admin Logo"
-        className="mt-2 mb-4"
-      />
+        <img
+          src={mode === "dark" ? LogoWhite : LogoBlack}
+          alt="Admin Logo"
+          className="mt-2 mb-4"
+        />
       </Toolbar>
+
       {/* Navigation list */}
       <List>
         {[
           { text: "Dashboard", icon: <DashboardIcon />, link: "/dashboard" },
           { text: "Users", icon: <PersonIcon />, link: "/users" },
-        ].map((item, index) => (
-          <ListItem button key={item.text}>
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.text} />
+        ].map((item) => (
+          <ListItem
+            button
+            key={item.text}
+            component={Link}
+            to={item.link}
+            sx={{
+              backgroundColor: location.pathname === item.link ? "rgba(0, 0, 0, 0.1)" : "inherit",
+              "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.05)" },
+            }}
+          >
+            <ListItemIcon
+              sx={{ color: location.pathname === item.link ? "primary.main" : "inherit" }}
+            >
+              {item.icon}
+            </ListItemIcon>
+            <ListItemText
+              primary={item.text}
+              primaryTypographyProps={{
+                fontWeight: location.pathname === item.link ? "bold" : "normal",
+                color: location.pathname === item.link ? "primary.main" : "inherit",
+              }}
+            />
           </ListItem>
         ))}
       </List>
