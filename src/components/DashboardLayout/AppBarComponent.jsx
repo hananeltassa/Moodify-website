@@ -1,5 +1,5 @@
 import React from "react";
-import { AppBar, Toolbar, IconButton, Typography, Avatar } from "@mui/material";
+import { AppBar, Toolbar, IconButton, Typography, Avatar, Tooltip, Box,} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
@@ -13,35 +13,97 @@ const AppBarComponent = ({ handleDrawerToggle, toggleThemeMode, mode }) => {
       sx={{
         width: { sm: `calc(100% - 240px)` },
         ml: { sm: "240px" },
+        backdropFilter: "blur(10px)",
+        color: mode === "dark" ? "#FFFFFF" : "#000000",
       }}
     >
-      <Toolbar>
-        {/* Hamburger menu button for mobile sidebar */}
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { sm: "none" } }}
-        >
-          <MenuIcon />
-        </IconButton>
-        {/* App title */}
-        <Typography variant="h6" noWrap sx={{ flexGrow: 1 }}>
-          Hi, Welcome back! 👋
-        </Typography>
-        {/* Theme toggle switch */}
-        <IconButton
-        onClick={toggleThemeMode}
-        color="inherit"
-        className="bg-red-500 text-white p-2 rounded"
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
       >
-        {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
-      </IconButton>
+        {/* Left Section: Hamburger Menu and Title */}
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{
+              mr: 2,
+              display: { sm: "none" },
+              "&:hover": {
+                backgroundColor: "rgba(255, 255, 255, 0.2)",
+                transition: "background-color 0.3s ease",
+              },
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography
+            variant="h6"
+            noWrap
+            sx={{
+              fontWeight: "bold",
+              fontSize: { xs: "18px", sm: "20px" },
+            }}
+          >
+            Admin Dashboard
+          </Typography>
+        </Box>
 
-        {/* Notifications and profile avatar */}
-        <NotificationsIcon sx={{ mr: 2 }} /> 
-        <Avatar alt="Profile Picture" src="/profile.jpg" />
+        {/* Right Section: Theme Toggle, Notifications, and Profile */}
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          {/* Theme Toggle */}
+          <Tooltip title={`Switch to ${mode === "dark" ? "light" : "dark"} mode`}>
+            <IconButton
+              onClick={toggleThemeMode}
+              color="inherit"
+              sx={{
+                mr: 2,
+                "&:hover": {
+                  color: mode === "dark" ? "#FF6100" : "#FF8E53",
+                  transition: "color 0.3s ease",
+                },
+              }}
+            >
+              {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+          </Tooltip>
+
+          {/* Notifications */}
+          <Tooltip title="Notifications">
+            <IconButton
+              color="inherit"
+              sx={{
+                mr: 2,
+                "&:hover": {
+                  color: mode === "dark" ? "#FF6100" : "#FF8E53",
+                  transition: "color 0.3s ease",
+                },
+              }}
+            >
+              <NotificationsIcon />
+            </IconButton>
+          </Tooltip>
+
+          {/* Profile Avatar */}
+          <Tooltip title="Profile">
+            <IconButton
+              color="inherit"
+              sx={{
+                "&:hover": {
+                  boxShadow: "0 0 10px rgba(255,97,0,0.5)",
+                  transition: "box-shadow 0.3s ease",
+                },
+              }}
+            >
+              <Avatar alt="Profile Picture" src="/profile.jpg" />
+            </IconButton>
+          </Tooltip>
+        </Box>
       </Toolbar>
     </AppBar>
   );
