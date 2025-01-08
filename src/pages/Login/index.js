@@ -1,23 +1,44 @@
 import React, { useState } from "react";
 import BasicTextFields from "../../components/BasicTextFields";
 import { Button, Typography, CircularProgress } from "@mui/material";
-import useLogin from "../../hooks/useLogin";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../services/authService"; 
 import "./Login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, loading, error } = useLogin();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = () => {
-    login(email, password);
+  const handleLogin = async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const { token, user } = await loginUser(email, password);
+
+      localStorage.setItem("authToken", token);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="login-page">
       <img src="/logo-white.png" alt="Logo" className="login-logo" />
       <h1>Login</h1>
-      {error && <Typography color="error" sx={{ marginBottom: 2 }}>{error}</Typography>}
+      {error && (
+        <Typography color="error" sx={{ marginBottom: 2 }}>
+          {error}
+        </Typography>
+      )}
       <BasicTextFields
         id="email"
         label="Email Address"
