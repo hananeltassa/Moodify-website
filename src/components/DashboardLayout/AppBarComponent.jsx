@@ -31,11 +31,16 @@ const AppBarComponent = ({ handleDrawerToggle, toggleThemeMode, mode }) => {
           Hi, Welcome back! 👋
         </Typography>
         {/* Theme toggle switch */}
-        <IconButton onClick={toggleThemeMode} color="inherit">
-          {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
-        </IconButton>
+        <IconButton
+        onClick={toggleThemeMode}
+        color="inherit"
+        className="bg-red-500 text-white p-2 rounded"
+      >
+        {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
+      </IconButton>
+
         {/* Notifications and profile avatar */}
-        <NotificationsIcon sx={{ mr: 2 }} />
+        <NotificationsIcon sx={{ mr: 2 }} /> 
         <Avatar alt="Profile Picture" src="/profile.jpg" />
       </Toolbar>
     </AppBar>
