@@ -5,7 +5,8 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
-import useSplashScreen from "./hooks/useSplashScreen"; 
+import useSplashScreen from "./hooks/useSplashScreen";
+import ThemeContextProvider from "./context/ThemeContext";
 import "./styles/styles.css";
 
 function App() {
@@ -14,14 +15,16 @@ function App() {
   if (isLoading) return <SplashScreen />;
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/home" element={<Home/>} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/users" element={<Users />} />
-      </Routes>
-    </Router>
+    <ThemeContextProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/home" element={<Home/>} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/users" element={<Users />} />
+        </Routes>
+      </Router>
+    </ThemeContextProvider>
   );
 }
 
