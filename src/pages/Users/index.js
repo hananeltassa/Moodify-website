@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/DashboardLayout";
 import UsersTable from "../../components/UsersTable";
-import {
-  Box,
-  Typography,
-  CircularProgress,
-  Alert,
-  Snackbar,
-} from "@mui/material";
-import { getAllUsers, updateUserRole } from "../../services/userService";
+import { Box, Typography, CircularProgress, Alert, Snackbar,} from "@mui/material";
+import { getAllUsers, updateUserRole, toggleUserBan} from "../../services/userService";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -66,18 +60,29 @@ const Users = () => {
     }
   };
 
-  const handleBanToggle = (id) => {
-    const user = users.find((user) => user.id === id);
-    if (user.email === "admin@moodify.com") {
-      alert("This user cannot be banned.");
-      return;
-    }
+  const handleBanToggle = async (id) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        setError("Unauthorized. Please log in.");
+        return;
+      }
   
-    setUsers((prevUsers) =>
-      prevUsers.map((user) =>
-        user.id === id ? { ...user, isBanned: !user.isBanned } : user
-      )
-    );
+      const { user } = await toggleUserBan(token, id);
+  
+      setUsers((prevUsers) =>
+        prevUsers.map((u) =>
+          u.id === id ? { ...u, isBanned: user.is_banned } : u
+        )
+      );
+      setSuccessMessage(
+        `User has been ${user.is_banned ? "banned" : "unbanned"} successfully.`
+      );
+      setSnackbarOpen(true);
+    } catch (err) {
+      console.error("Error toggling ban status:", err);
+      setError(err.response?.data?.error || "An unexpected error occurred.");
+    }
   };
 
   const handleSnackbarClose = () => {

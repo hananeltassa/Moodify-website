@@ -34,3 +34,16 @@ export const updateUserRole = async (token, id, role) => {
       throw new Error(error.response?.data?.error || "Failed to update user role");
     }
 };
+
+
+export const toggleUserBan = async (token, id) => {
+
+    const response = await axios.put(`http://localhost:8080/api/admin/users/${id}/ban`, 
+        {}, 
+        {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+      });
+    return response.data;
+  };
