@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import {
   Box,
@@ -18,73 +18,66 @@ import UnbanIcon from "@mui/icons-material/CheckCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 
-const UsersTable = () => {
-  const theme = useTheme(); // Get the current theme
-  const [rows, setRows] = useState([
-    { id: 1, name: "Alice Johnson", email: "alice@gmail.com", gender: "Female", role: "User", isBanned: false },
-    { id: 2, name: "Bob Smith", email: "bob@gmail.com", gender: "Male", role: "Admin", isBanned: true },
-    { id: 3, name: "Charlie Brown", email: "charlie@gmail.com", gender: "Other", role: "User", isBanned: false },
-    { id: 4, name: "Diana Prince", email: "diana@gmail.com", gender: "Female", role: "Moderator", isBanned: false },
-    { id: 5, name: "Eve Adams", email: "eve@gmail.com", gender: "Female", role: "User", isBanned: true },
-  ]);
-
-  const [searchText, setSearchText] = useState("");
-
-  const toggleBan = (id) => {
-    setRows((prevRows) =>
-      prevRows.map((row) =>
-        row.id === id ? { ...row, isBanned: !row.isBanned } : row
-      )
-    );
-  };
-
-  const handleRoleChange = (id, newRole) => {
-    setRows((prevRows) =>
-      prevRows.map((row) =>
-        row.id === id ? { ...row, role: newRole } : row
-      )
-    );
-  };
+const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
+  const theme = useTheme();
+  const [searchText, setSearchText] = React.useState("");
 
   const handleSearchClear = () => {
     setSearchText("");
   };
+
+  const normalizeRole = (role) => role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
 
   const filteredRows = rows.filter((row) =>
     row.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
   const columns = [
-    { field: "id", headerName: "ID", width: 70 },
-    { field: "name", headerName: "Name", width: 200 },
+    { field: "id", headerName: "ID", width: 40 },
+    { field: "name", headerName: "Name", width: 140 },
     { field: "email", headerName: "Email", width: 250 },
-    { field: "gender", headerName: "Gender", width: 130 },
+    { field: "gender", headerName: "Gender", width: 80 },
     {
       field: "role",
       headerName: "Role",
-      width: 150,
+      width: 100,
       renderCell: (params) => (
-        <Select
-          value={params.row.role}
-          onChange={(e) => handleRoleChange(params.row.id, e.target.value)}
+        <Box
           sx={{
-            fontSize: "14px",
-            height: "40px",
-            backgroundColor: theme.palette.mode === "dark" ? "#424242" : "#f0f0f0",
-            borderRadius: "8px",
-            color: theme.palette.text.primary,
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
           }}
         >
-          <MenuItem value="User">User</MenuItem>
-          <MenuItem value="Moderator">Moderator</MenuItem>
-          <MenuItem value="Admin">Admin</MenuItem>
-        </Select>
+          <Select
+            value={normalizeRole(params.row.role)}
+            onChange={(e) => onRoleChange(params.row.id, e.target.value)}
+            fullWidth 
+            variant="outlined"
+            sx={{
+              fontSize: "14px",
+              height: "100%",
+              marginTop: 1,
+              backgroundColor: theme.palette.mode === "dark" ? "#424242" : "#f0f0f0",
+              borderRadius: "8px",
+              color: theme.palette.text.primary,
+              "& .MuiSelect-select": {
+                display: "flex",
+                alignItems: "center",
+                padding: "8px",
+              },
+            }}
+          >
+            <MenuItem value="User">User</MenuItem>
+            <MenuItem value="Admin">Admin</MenuItem>
+          </Select>
+        </Box>
       ),
     },
     {
       field: "isBanned",
       headerName: "Status",
-      width: 150,
+      width: 100,
       renderCell: (params) => (
         <Typography
           sx={{
@@ -105,7 +98,7 @@ const UsersTable = () => {
           <Button
             variant="outlined"
             color={params.row.isBanned ? "success" : "error"}
-            onClick={() => toggleBan(params.row.id)}
+            onClick={() => onBanToggle(params.row.id)}
             startIcon={params.row.isBanned ? <UnbanIcon /> : <BanIcon />}
             sx={{
               textTransform: "none",
@@ -134,7 +127,6 @@ const UsersTable = () => {
         boxShadow: theme.shadows[3],
       }}
     >
-      {/* Header Section */}
       <Box
         sx={{
           display: "flex",
@@ -173,8 +165,6 @@ const UsersTable = () => {
           }}
         />
       </Box>
-
-      {/* DataGrid Section */}
       <Box sx={{ flexGrow: 1, p: 2 }}>
         <DataGrid
           rows={filteredRows}
@@ -182,23 +172,6 @@ const UsersTable = () => {
           pageSize={5}
           disableSelectionOnClick
           checkboxSelection
-          sx={{
-            "& .MuiDataGrid-row:nth-of-type(odd)": {
-              backgroundColor: theme.palette.mode === "dark" ? "#424242" : "#f9f9f9",
-            },
-            "& .MuiDataGrid-row:hover": {
-              backgroundColor: theme.palette.action.hover,
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: theme.palette.background.default,
-              fontWeight: "bold",
-              textTransform: "uppercase",
-              fontSize: 14,
-            },
-            "& .MuiDataGrid-footerContainer": {
-              backgroundColor: theme.palette.background.default,
-            },
-          }}
         />
       </Box>
     </Paper>
