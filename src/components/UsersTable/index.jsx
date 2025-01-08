@@ -1,12 +1,25 @@
 import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Button, Tooltip, Typography, MenuItem, Select, TextField, InputAdornment, IconButton, Paper,} from "@mui/material";
+import {
+  Box,
+  Button,
+  Tooltip,
+  Typography,
+  MenuItem,
+  Select,
+  TextField,
+  InputAdornment,
+  IconButton,
+  Paper,
+  useTheme,
+} from "@mui/material";
 import BanIcon from "@mui/icons-material/Block";
 import UnbanIcon from "@mui/icons-material/CheckCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 
 const UsersTable = () => {
+  const theme = useTheme(); // Get the current theme
   const [rows, setRows] = useState([
     { id: 1, name: "Alice Johnson", email: "alice@gmail.com", gender: "Female", role: "User", isBanned: false },
     { id: 2, name: "Bob Smith", email: "bob@gmail.com", gender: "Male", role: "Admin", isBanned: true },
@@ -57,8 +70,9 @@ const UsersTable = () => {
           sx={{
             fontSize: "14px",
             height: "40px",
-            backgroundColor: "#f0f0f0",
+            backgroundColor: theme.palette.mode === "dark" ? "#424242" : "#f0f0f0",
             borderRadius: "8px",
+            color: theme.palette.text.primary,
           }}
         >
           <MenuItem value="User">User</MenuItem>
@@ -73,7 +87,10 @@ const UsersTable = () => {
       width: 150,
       renderCell: (params) => (
         <Typography
-          sx={{ color: params.value ? "red" : "green", fontWeight: "bold" }}
+          sx={{
+            color: params.value ? theme.palette.error.main : theme.palette.success.main,
+            fontWeight: "bold",
+          }}
         >
           {params.value ? "Banned" : "Active"}
         </Typography>
@@ -112,8 +129,9 @@ const UsersTable = () => {
         width: "100%",
         borderRadius: 4,
         overflow: "hidden",
-        backgroundColor: "white",
-        boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.text.primary,
+        boxShadow: theme.shadows[3],
       }}
     >
       {/* Header Section */}
@@ -123,8 +141,8 @@ const UsersTable = () => {
           justifyContent: "space-between",
           alignItems: "center",
           p: 2,
-          borderBottom: "1px solid #e0e0e0",
-          backgroundColor: "#f8f9fa",
+          borderBottom: `1px solid ${theme.palette.divider}`,
+          backgroundColor: theme.palette.mode === "dark" ? "#333" : "#f8f9fa",
         }}
       >
         <TextField
@@ -136,7 +154,7 @@ const UsersTable = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <SearchIcon sx={{ color: "#888" }} />
+                <SearchIcon sx={{ color: theme.palette.text.secondary }} />
               </InputAdornment>
             ),
             endAdornment: searchText && (
@@ -149,7 +167,7 @@ const UsersTable = () => {
           }}
           sx={{
             width: 300,
-            backgroundColor: "#ffffff",
+            backgroundColor: theme.palette.background.default,
             borderRadius: 1,
             boxShadow: 1,
           }}
@@ -166,19 +184,19 @@ const UsersTable = () => {
           checkboxSelection
           sx={{
             "& .MuiDataGrid-row:nth-of-type(odd)": {
-              backgroundColor: "#f9f9f9",
+              backgroundColor: theme.palette.mode === "dark" ? "#424242" : "#f9f9f9",
             },
             "& .MuiDataGrid-row:hover": {
-              backgroundColor: "#f1f1f1",
+              backgroundColor: theme.palette.action.hover,
             },
             "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: "#e0e0e0",
+              backgroundColor: theme.palette.background.default,
               fontWeight: "bold",
               textTransform: "uppercase",
               fontSize: 14,
             },
             "& .MuiDataGrid-footerContainer": {
-              backgroundColor: "#f8f9fa",
+              backgroundColor: theme.palette.background.default,
             },
           }}
         />
