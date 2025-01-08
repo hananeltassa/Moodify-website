@@ -11,7 +11,6 @@ const DashboardCard = ({ title, value, icon, growth }) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        padding: 2,
         boxShadow: mode === "dark" ? "0px 4px 10px rgba(0,0,0,0.4)" : "0px 4px 10px rgba(0,0,0,0.1)",
         borderRadius: "10px",
         height: "150px",
