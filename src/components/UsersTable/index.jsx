@@ -1,18 +1,6 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import {
-  Box,
-  Button,
-  Tooltip,
-  Typography,
-  MenuItem,
-  Select,
-  TextField,
-  InputAdornment,
-  IconButton,
-  Paper,
-  useTheme,
-} from "@mui/material";
+import { Box, Button, Tooltip, Typography, MenuItem, Select, TextField, InputAdornment, IconButton, Paper, useTheme,} from "@mui/material";
 import BanIcon from "@mui/icons-material/Block";
 import UnbanIcon from "@mui/icons-material/CheckCircle";
 import SearchIcon from "@mui/icons-material/Search";
@@ -52,7 +40,7 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
           <Select
             value={normalizeRole(params.row.role)}
             onChange={(e) => onRoleChange(params.row.id, e.target.value)}
-            fullWidth 
+            fullWidth
             variant="outlined"
             sx={{
               fontSize: "14px",
@@ -98,7 +86,7 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
           <Button
             variant="outlined"
             color={params.row.isBanned ? "success" : "error"}
-            onClick={() => onBanToggle(params.row.id)}
+            onClick={() => onBanToggle(params.row.id)} // Call the parent handler
             startIcon={params.row.isBanned ? <UnbanIcon /> : <BanIcon />}
             sx={{
               textTransform: "none",
