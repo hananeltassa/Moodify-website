@@ -62,6 +62,19 @@ const Dashboard = () => {
     { id: "Other", value: 5, color: "#f59e0b" },
   ];
 
+  const challengeData = [
+    {
+      id: "Total Challenges",
+      value: analytics.challenges.total,
+      color: "#3b82f6",
+    },
+    {
+      id: "Completed Challenges",
+      value: analytics.challenges.completed,
+      color: "#10b981",
+    },
+  ];
+
   return (
     <DashboardLayout>
       <Box sx={{ p: 3 }}>
@@ -101,6 +114,10 @@ const Dashboard = () => {
         >
           <ChartComponent data={visitsData} title="Visits by Region" />
           <ChartComponent data={genderData} title="Gender Distribution" />
+          <ChartComponent
+            data={challengeData}
+            title="Challenges Overview"
+          />
         </Box>
       </Box>
     </DashboardLayout>
