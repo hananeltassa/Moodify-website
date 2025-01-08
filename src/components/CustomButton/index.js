@@ -9,8 +9,7 @@ const CustomButton = ({ variant = "contained", children, onClick, disabled }) =>
       disabled={disabled}
       sx={{
         backgroundColor: variant === "contained" ? "primary.main" : undefined,
-        borderRadius: 15,
-        width: 200,
+        borderRadius: 2,
         textTransform: "none",
         paddingX: 3,
         paddingY: 1.5,
