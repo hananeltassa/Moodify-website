@@ -1,11 +1,14 @@
-import React from "react";
-import { AppBar, Toolbar, IconButton, Typography, Avatar, Tooltip, Box,} from "@mui/material";
+import React, { useContext } from "react";
+import { AppBar, Toolbar, IconButton, Typography, Avatar, Tooltip, Box } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { ThemeContext } from "../../context/ThemeContext";
 
-const AppBarComponent = ({ handleDrawerToggle, toggleThemeMode, mode }) => {
+const AppBarComponent = ({ handleDrawerToggle }) => {
+  const { mode, toggleThemeMode } = useContext(ThemeContext);
+
   return (
     <AppBar
       position="fixed"
@@ -24,7 +27,6 @@ const AppBarComponent = ({ handleDrawerToggle, toggleThemeMode, mode }) => {
           alignItems: "center",
         }}
       >
-        {/* Left Section: Hamburger Menu and Title */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <IconButton
             color="inherit"
@@ -53,10 +55,7 @@ const AppBarComponent = ({ handleDrawerToggle, toggleThemeMode, mode }) => {
             Admin Dashboard
           </Typography>
         </Box>
-
-        {/* Right Section: Theme Toggle, Notifications, and Profile */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          {/* Theme Toggle */}
           <Tooltip title={`Switch to ${mode === "dark" ? "light" : "dark"} mode`}>
             <IconButton
               onClick={toggleThemeMode}
@@ -72,8 +71,6 @@ const AppBarComponent = ({ handleDrawerToggle, toggleThemeMode, mode }) => {
               {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
             </IconButton>
           </Tooltip>
-
-          {/* Notifications */}
           <Tooltip title="Notifications">
             <IconButton
               color="inherit"
@@ -88,8 +85,6 @@ const AppBarComponent = ({ handleDrawerToggle, toggleThemeMode, mode }) => {
               <NotificationsIcon />
             </IconButton>
           </Tooltip>
-
-          {/* Profile Avatar */}
           <Tooltip title="Profile">
             <IconButton
               color="inherit"
