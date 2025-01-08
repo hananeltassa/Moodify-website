@@ -34,6 +34,7 @@ const DashboardLayout = ({ children }) => {
           mobileOpen={mobileOpen}
           handleDrawerToggle={handleDrawerToggle}
           drawerWidth={drawerWidth}
+          mode={mode}
         />
         {/* Main Content Area */}
         <Box

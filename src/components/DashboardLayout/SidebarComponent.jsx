@@ -1,25 +1,22 @@
 import React from "react";
-import {
-  Drawer,
-  Toolbar,
-  Typography,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Box,
-} from "@mui/material";
+import { Drawer, Toolbar, Typography, List, ListItem, ListItemIcon, ListItemText, Box,} from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
+import Logo from "../../assets/Logo-black.png";
+import LogoBlack from "../../assets/Logo-black.png";
+import LogoWhite from "../../assets/Logo-white.png";
 
-const SidebarComponent = ({ mobileOpen, handleDrawerToggle, drawerWidth }) => {
+const SidebarComponent = ({ mobileOpen, handleDrawerToggle, drawerWidth, mode }) => {
   const drawer = (
     <div>
       {/* Toolbar for branding */}
       <Toolbar>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          Admin Panel
-        </Typography>
+      {/* Logo */}
+      <img
+        src={mode === "dark" ? LogoWhite : LogoBlack}
+        alt="Admin Logo"
+        className="mt-2 mb-4"
+      />
       </Toolbar>
       {/* Navigation list */}
       <List>
