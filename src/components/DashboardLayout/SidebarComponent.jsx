@@ -1,13 +1,15 @@
-import React from "react";
-import { Drawer, Toolbar, List, ListItem, ListItemIcon, ListItemText, Box, Button, } from "@mui/material";
+import React, { useContext } from "react";
+import { Drawer, Toolbar, List, ListItem, ListItemIcon, ListItemText, Box, Button } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LogoBlack from "../../assets/Logo-black.png";
 import LogoWhite from "../../assets/Logo-white.png";
+import { ThemeContext } from "../../context/ThemeContext";
 
-const SidebarComponent = ({ mobileOpen, handleDrawerToggle, drawerWidth, mode }) => {
+const SidebarComponent = ({ mobileOpen, handleDrawerToggle, drawerWidth }) => {
+  const { mode } = useContext(ThemeContext);
   const location = useLocation();
 
   const drawer = (
@@ -17,29 +19,23 @@ const SidebarComponent = ({ mobileOpen, handleDrawerToggle, drawerWidth, mode })
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        backgroundColor: mode === "dark" ? "#121212" : "#00000",
+        backgroundColor: mode === "dark" ? "#121212" : "#FFFFFF",
         color: mode === "dark" ? "#FFFFFF" : "#000000",
       }}
     >
-      {/* Top Section: Branding and Navigation */}
       <Box>
-        {/* Toolbar for branding */}
         <Toolbar
           sx={{
-            justifyContent: "center", 
+            justifyContent: "center",
             paddingY: 2,
           }}
         >
           <img
             src={mode === "dark" ? LogoWhite : LogoBlack}
             alt="Admin Logo"
-            style={{
-              objectFit: "contain",
-            }}
+            style={{ objectFit: "contain" }}
           />
         </Toolbar>
-
-        {/* Navigation list */}
         <List sx={{ mt: 2 }}>
           {[
             { text: "Dashboard", icon: <DashboardIcon />, link: "/dashboard" },
@@ -51,16 +47,12 @@ const SidebarComponent = ({ mobileOpen, handleDrawerToggle, drawerWidth, mode })
               component={Link}
               to={item.link}
               sx={{
-                backgroundColor:
-                  location.pathname === item.link ? "rgba(255, 97, 0, 0.2)" : "inherit",
+                backgroundColor: location.pathname === item.link ? "rgba(255, 97, 0, 0.2)" : "inherit",
                 borderRadius: 2,
                 paddingX: 2,
                 paddingY: 1,
-                "&:hover": {
-                  backgroundColor: "rgba(255, 96, 0, 0.1)",
-                },
+                "&:hover": { backgroundColor: "rgba(255, 96, 0, 0.1)" },
                 transition: "background-color 0.3s ease",
-                width: "100%",
               }}
             >
               <ListItemIcon
@@ -82,8 +74,6 @@ const SidebarComponent = ({ mobileOpen, handleDrawerToggle, drawerWidth, mode })
           ))}
         </List>
       </Box>
-
-      {/* Bottom Section: Logout Button */}
       <Box sx={{ p: 2 }}>
         <Button
           variant="contained"
@@ -110,14 +100,11 @@ const SidebarComponent = ({ mobileOpen, handleDrawerToggle, drawerWidth, mode })
       sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
       aria-label="mailbox folders"
     >
-      {/* Temporary drawer for mobile view */}
       <Drawer
         variant="temporary"
         open={mobileOpen}
         onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true,
-        }}
+        ModalProps={{ keepMounted: true }}
         sx={{
           display: { xs: "block", sm: "none" },
           "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
@@ -125,7 +112,6 @@ const SidebarComponent = ({ mobileOpen, handleDrawerToggle, drawerWidth, mode })
       >
         {drawer}
       </Drawer>
-      {/* Permanent drawer for desktop view */}
       <Drawer
         variant="permanent"
         sx={{
