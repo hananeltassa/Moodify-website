@@ -21,6 +21,7 @@ const Users = () => {
           return;
         }
         const fetchedUsers = await getAllUsers(token);
+        //console.log(fetchedUsers);
         setUsers(fetchedUsers);
       } catch (err) {
         setError(err.message);

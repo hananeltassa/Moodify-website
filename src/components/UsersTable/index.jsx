@@ -69,14 +69,19 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
       renderCell: (params) => (
         <Typography
           sx={{
-            color: params.value ? theme.palette.error.main : theme.palette.success.main,
+            color: params.row.is_banned ? theme.palette.error.main : theme.palette.success.main,
             fontWeight: "bold",
+            textAlign:'center',
+            justifyContent: 'center',
+            display: 'flex', 
+            marginTop:2,
           }}
         >
-          {params.value ? "Banned" : "Active"}
+          {params.row.is_banned ? "Banned" : "Active"}
         </Typography>
       ),
     },
+    
     {
       field: "action",
       headerName: "Action",
