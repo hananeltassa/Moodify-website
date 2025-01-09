@@ -5,6 +5,7 @@ import ChartComponent from "../../components/ChartComponent";
 import { Box, CircularProgress, Alert } from "@mui/material";
 import { getSystemAnalytics } from "../../services/analyticsService";
 import cardData from "../../utils/cardData";
+import { prepareGenderData, prepareChallengeData } from "../../utils/analyticsUtils";
 
 const Dashboard = () => {
   const [analytics, setAnalytics] = useState(null);
@@ -48,32 +49,8 @@ const Dashboard = () => {
   }
 
   const cards = cardData(analytics);
-
-  const visitsData = [
-    { id: "America", value: 43.8, color: "#3b82f6" },
-    { id: "Asia", value: 31.3, color: "#f59e0b" },
-    { id: "Europe", value: 18.8, color: "#8b5cf6" },
-    { id: "Africa", value: 6.3, color: "#f43f5e" },
-  ];
-
-  const genderData = [
-    { id: "Male", value: 60, color: "#3b82f6" },
-    { id: "Female", value: 35, color: "#f43f5e" },
-    { id: "Other", value: 5, color: "#f59e0b" },
-  ];
-
-  const challengeData = [
-    {
-      id: "Total Challenges",
-      value: analytics.challenges.total,
-      color: "#3b82f6",
-    },
-    {
-      id: "Completed Challenges",
-      value: analytics.challenges.completed,
-      color: "#10b981",
-    },
-  ];
+  const genderData = prepareGenderData(analytics.users.gender);
+  const challengeData = prepareChallengeData(analytics.challenges);
 
   return (
     <DashboardLayout>
@@ -112,12 +89,8 @@ const Dashboard = () => {
             mt: 3,
           }}
         >
-          <ChartComponent data={visitsData} title="Visits by Region" />
           <ChartComponent data={genderData} title="Gender Distribution" />
-          <ChartComponent
-            data={challengeData}
-            title="Challenges Overview"
-          />
+          <ChartComponent data={challengeData} title="Challenges Overview" />
         </Box>
       </Box>
     </DashboardLayout>
