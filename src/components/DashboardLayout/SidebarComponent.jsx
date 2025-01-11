@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
-import { Drawer, Toolbar, List, ListItem, ListItemIcon, ListItemText, Box, Button } from "@mui/material";
+import { Drawer, Toolbar, List, ListItem, ListItemIcon, ListItemText, Box } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
-import LogoutIcon from "@mui/icons-material/Logout";
 import LogoBlack from "../../assets/Logo-black.png";
 import LogoWhite from "../../assets/Logo-white.png";
 import { ThemeContext } from "../../context/ThemeContext";
@@ -65,7 +64,7 @@ const SidebarComponent = ({ mobileOpen, handleDrawerToggle, drawerWidth }) => {
               </ListItemIcon>
               <ListItemText
                 primary={item.text}
-                primaryTypographyProps={{
+                sx={{
                   fontWeight: location.pathname === item.link ? "bold" : "normal",
                   color: location.pathname === item.link ? "primary.main" : "inherit",
                 }}
@@ -73,23 +72,6 @@ const SidebarComponent = ({ mobileOpen, handleDrawerToggle, drawerWidth }) => {
             </ListItem>
           ))}
         </List>
-      </Box>
-      <Box sx={{ p: 2 }}>
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<LogoutIcon />}
-          fullWidth
-          sx={{
-            textTransform: "none",
-            fontWeight: "bold",
-            borderRadius: 3,
-            paddingY: 1,
-          }}
-          onClick={() => alert("Logged out!")}
-        >
-          Logout
-        </Button>
       </Box>
     </Box>
   );

@@ -1,13 +1,30 @@
-import React, { useContext } from "react";
-import { AppBar, Toolbar, IconButton, Typography, Avatar, Tooltip, Box } from "@mui/material";
+import React, { useContext, useState } from "react";
+import { AppBar, Toolbar, IconButton, Typography, Avatar, Tooltip, Box, Menu, MenuItem, ListItemIcon } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { ThemeContext } from "../../context/ThemeContext";
 
 const AppBarComponent = ({ handleDrawerToggle }) => {
   const { mode, toggleThemeMode } = useContext(ThemeContext);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    setAnchorEl(null);
+    alert("Logged out!");
+  };
 
   return (
     <AppBar
@@ -88,6 +105,7 @@ const AppBarComponent = ({ handleDrawerToggle }) => {
           <Tooltip title="Profile">
             <IconButton
               color="inherit"
+              onClick={handleMenuOpen}
               sx={{
                 "&:hover": {
                   boxShadow: "0 0 10px rgba(255,97,0,0.5)",
@@ -98,6 +116,33 @@ const AppBarComponent = ({ handleDrawerToggle }) => {
               <Avatar alt="Profile Picture" src="/profile.jpg" />
             </IconButton>
           </Tooltip>
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleMenuClose}
+            sx={{
+              mt: 1.5,
+              "& .MuiMenu-paper": {
+                borderRadius: 2,
+                minWidth: 200,
+              },
+            }}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+          >
+            <MenuItem onClick={handleLogout}>
+              <ListItemIcon>
+                <LogoutIcon fontSize="small" />
+              </ListItemIcon>
+              Logout
+            </MenuItem>
+          </Menu>
         </Box>
       </Toolbar>
     </AppBar>
