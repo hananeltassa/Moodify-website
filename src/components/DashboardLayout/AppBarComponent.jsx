@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useSelector } from "react-redux"; // Import useSelector to access Redux state
 import { AppBar, Toolbar, IconButton, Typography, Avatar, Tooltip, Box, Menu, MenuItem, ListItemIcon } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -9,6 +10,9 @@ import { ThemeContext } from "../../context/ThemeContext";
 
 const AppBarComponent = ({ handleDrawerToggle }) => {
   const { mode, toggleThemeMode } = useContext(ThemeContext);
+
+  const profilePicture = useSelector((state) => state.auth?.user?.profilePic);
+  const userName = useSelector((state) => state.auth?.user?.name);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -102,7 +106,7 @@ const AppBarComponent = ({ handleDrawerToggle }) => {
               <NotificationsIcon />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Profile">
+          <Tooltip title={userName || "Profile"}>
             <IconButton
               color="inherit"
               onClick={handleMenuOpen}
@@ -113,7 +117,10 @@ const AppBarComponent = ({ handleDrawerToggle }) => {
                 },
               }}
             >
-              <Avatar alt="Profile Picture" src="/profile.jpg" />
+              <Avatar
+                alt={userName || "Profile Picture"}
+                src={profilePicture || "/default-profile.jpg"} // Fallback to default image
+              />
             </IconButton>
           </Tooltip>
           <Menu
