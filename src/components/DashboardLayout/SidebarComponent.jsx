@@ -3,6 +3,7 @@ import { Drawer, Toolbar, List, ListItem, ListItemIcon, ListItemText, Box } from
 import { Link, useLocation } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonIcon from "@mui/icons-material/Person";
+import SettingsIcon from "@mui/icons-material/Settings";
 import LogoBlack from "../../assets/Logo-black.png";
 import LogoWhite from "../../assets/Logo-white.png";
 import { ThemeContext } from "../../context/ThemeContext";
@@ -39,6 +40,8 @@ const SidebarComponent = ({ mobileOpen, handleDrawerToggle, drawerWidth }) => {
           {[
             { text: "Dashboard", icon: <DashboardIcon />, link: "/dashboard" },
             { text: "Users", icon: <PersonIcon />, link: "/users" },
+            { text: "Settings", icon: <SettingsIcon />, link: "/settings" },
+
           ].map((item) => (
             <ListItem
               button
