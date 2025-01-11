@@ -39,7 +39,10 @@ const usersSlice = createSlice({
         user.is_banned = isBanned; // Make sure this updates the state
       }
     },
-    
+    deleteUser: (state, action) => {
+      const userId = action.payload;
+      state.users = state.users.filter((user) => user.id !== userId);
+    },
   },
 });
 
@@ -51,6 +54,7 @@ export const {
   clearMessages,
   updateRole,
   toggleBan,
+  deleteUser
 } = usersSlice.actions;
 
 export default usersSlice.reducer;
