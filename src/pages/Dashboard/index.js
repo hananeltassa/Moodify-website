@@ -3,29 +3,37 @@ import DashboardLayout from "../../components/DashboardLayout";
 import DashboardCard from "../../components/DashboardCard";
 import ChartComponent from "../../components/ChartComponent";
 import { Box, CircularProgress, Alert } from "@mui/material";
-import { getSystemAnalytics } from "../../services/analyticsService";
+import { getSystemAnalytics, fetchUserGrowthData } from "../../services/analyticsService";
 import cardData from "../../utils/cardData";
 import { prepareGenderData, prepareChallengeData } from "../../utils/analyticsUtils";
+import UserGrowthChart from "../../components/UserGrowthChart";
 
 const Dashboard = () => {
   const [analytics, setAnalytics] = useState(null);
+  const [userGrowthData, setUserGrowthData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchAnalytics = async () => {
+    const fetchData = async () => {
       try {
         const token = localStorage.getItem("authToken");
-        const data = await getSystemAnalytics(token);
-        setAnalytics(data.analytics);
+
+        const [analyticsData, growthData] = await Promise.all([
+          getSystemAnalytics(token),
+          fetchUserGrowthData(token),
+        ]);
+
+        setAnalytics(analyticsData.analytics);
+        setUserGrowthData(growthData);
       } catch (err) {
-        setError(err.message || "Error fetching analytics");
+        setError(err.message || "Error fetching data");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchAnalytics();
+    fetchData();
   }, []);
 
   if (loading) {
@@ -52,6 +60,12 @@ const Dashboard = () => {
   const genderData = prepareGenderData(analytics.users.gender);
   const challengeData = prepareChallengeData(analytics.challenges);
 
+  // Prepare data for the BarChart
+  const barChartData = userGrowthData?.map((entry) => ({
+    month: new Date(entry.date).toLocaleString('default', { month: 'short' }),
+    rainfall: parseInt(entry.user_count, 10),
+  }));
+
   return (
     <DashboardLayout>
       <Box sx={{ p: 3 }}>
@@ -77,6 +91,7 @@ const Dashboard = () => {
             />
           ))}
         </Box>
+
         {/* Charts Section */}
         <Box
           sx={{
@@ -91,6 +106,9 @@ const Dashboard = () => {
         >
           <ChartComponent data={genderData} title="Gender Distribution" />
           <ChartComponent data={challengeData} title="Challenges Overview" />
+
+          {/* User Growth Bar Chart */}
+          <UserGrowthChart data={barChartData} />
         </Box>
       </Box>
     </DashboardLayout>
