@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import BasicTextFields from "../../components/BasicTextFields";
 import { Button, Typography, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { loginUser } from "../../services/authService"; 
-import { setAuth } from "../../redux/slices/authSlice"; 
+import { loginUser } from "../../services/authService";  
 import "./Login.css";
 
 function Login() {
