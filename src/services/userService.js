@@ -54,3 +54,12 @@ export const toggleUserBan = async (token, userId) => {
     throw new Error(errorMessage);
   }
 };
+
+export const deleteUser = async (token, id) => {
+  const response = await axios.delete(`/api/users/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
