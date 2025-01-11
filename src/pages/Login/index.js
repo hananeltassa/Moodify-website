@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import BasicTextFields from "../../components/BasicTextFields";
 import { Button, Typography, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { loginUser } from "../../services/authService"; 
-import { setAuth } from "../../redux/slices/authSlice"; 
+import { loginUser } from "../../services/authService";  
 import "./Login.css";
 
 function Login() {
@@ -13,7 +11,6 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     setLoading(true);
@@ -24,7 +21,11 @@ function Login() {
 
       localStorage.setItem("authToken", token);
       localStorage.setItem("profilePicture", user.profilePic);
+<<<<<<< HEAD
       dispatch(setAuth({ user }));
+=======
+
+>>>>>>> 622a91306d0d4b2c6812c0360a3b615de97b3649
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);
