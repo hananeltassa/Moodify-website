@@ -23,8 +23,8 @@ function Login() {
       const { token, user } = await loginUser(email, password);
 
       localStorage.setItem("authToken", token);
+      localStorage.setItem("profilePicture", user.profilePic);
       dispatch(setAuth({ user }));
-
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);
