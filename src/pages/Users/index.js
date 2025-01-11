@@ -18,7 +18,7 @@ const Users = () => {
         if (!token) throw new Error("Unauthorized. Please log in.");
         const fetchedUsers = await getAllUsers(token);
         //console.log(fetchedUsers);
-        setUsers(fetchedUsers);
+        dispatch(setUsers(fetchedUsers));
       } catch (err) {
         dispatch(setError(err.message));
       } finally {
