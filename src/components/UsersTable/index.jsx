@@ -35,7 +35,9 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange, onDeleteUser }) => {
         <Typography
           sx={{
             fontSize: "14px",
-            color: params.row.spotify_id ? theme.palette.success.main : "gray",
+            color: params.row.spotify_id
+              ? theme.palette.success.main
+              : theme.palette.text.secondary,
             fontWeight: "bold",
             textAlign: "center",
           }}
@@ -58,7 +60,9 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange, onDeleteUser }) => {
           sx={{
             fontSize: "14px",
             backgroundColor:
-              theme.palette.mode === "dark" ? theme.palette.grey[800] : theme.palette.grey[100],
+              theme.palette.mode === "dark"
+                ? theme.palette.grey[800]
+                : theme.palette.grey[100],
             borderRadius: "8px",
             "& .MuiSelect-select": {
               display: "flex",
@@ -79,7 +83,9 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange, onDeleteUser }) => {
       renderCell: (params) => (
         <Typography
           sx={{
-            color: params.row.is_banned ? theme.palette.error.main : theme.palette.success.main,
+            color: params.row.is_banned
+              ? theme.palette.error.main
+              : theme.palette.success.main,
             fontWeight: "bold",
             textAlign: "center",
           }}
@@ -158,11 +164,25 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange, onDeleteUser }) => {
           alignItems: "center",
           p: 2,
           borderBottom: `1px solid ${theme.palette.divider}`,
-          backgroundColor: theme.palette.mode === "dark" ? "#333" : "#f8f9fa",
+          backgroundColor:
+            theme.palette.mode === "dark"
+              ? theme.palette.grey[900]
+              : theme.palette.grey[200],
         }}
       >
-        <Box sx={{ position: "relative", display: "flex", alignItems: "center", gap: 1 }}>
-          <SearchIcon sx={{ position: "absolute", left: 10, color: theme.palette.text.secondary }} />
+        <Box
+          sx={{
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <SearchIcon
+            sx={{
+              position: "absolute",
+              color: theme.palette.text.secondary,
+            }}
+          />
           <TextField
             variant="outlined"
             size="small"
@@ -170,8 +190,6 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange, onDeleteUser }) => {
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             sx={{
-              pl: 4,
-              width: 300,
               backgroundColor: theme.palette.background.default,
               borderRadius: 1,
             }}
@@ -201,10 +219,14 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange, onDeleteUser }) => {
             "& .MuiDataGrid-cell": {
               display: "flex",
               alignItems: "center",
+              color: theme.palette.text.primary,
             },
             "& .MuiDataGrid-columnHeader": {
               fontWeight: "bold",
-              backgroundColor: theme.palette.grey[200],
+              backgroundColor:
+                theme.palette.mode === "dark"
+                  ? theme.palette.grey[800]
+                  : theme.palette.grey[300],
             },
           }}
         />
