@@ -11,13 +11,16 @@ const DashboardCard = ({ title, value, icon, growth }) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        boxShadow: mode === "dark" ? "0px 4px 10px rgba(0,0,0,0.4)" : "0px 4px 10px rgba(0,0,0,0.1)",
-        borderRadius: "10px",
-        height: "150px",
-        backgroundColor: mode === "dark" ? "#1e1e1e" : "#ffffff",
-        transition: "transform 0.2s ease",
+        boxShadow: mode === "dark" ? "0px 4px 15px rgba(0,0,0,0.6)" : "0px 4px 15px rgba(0,0,0,0.2)",
+        borderRadius: "15px",
+        height: "160px",
+        background: mode === "dark"
+          ? "linear-gradient(135deg, #1e1e1e, #2b2b2b)"
+          : "linear-gradient(135deg, #ffffff, #f9f9f9)",
+        transition: "transform 0.3s ease, box-shadow 0.3s ease",
         "&:hover": {
-          transform: "translateY(-3px)",
+          transform: "translateY(-5px)",
+          boxShadow: mode === "dark" ? "0px 8px 20px rgba(0,0,0,0.8)" : "0px 8px 20px rgba(0,0,0,0.3)",
         },
       }}
     >
@@ -35,24 +38,39 @@ const DashboardCard = ({ title, value, icon, growth }) => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            marginBottom: "8px",
           }}
         >
+          {/* Icon Section */}
           <Box
             sx={{
-              fontSize: 32,
-              color: mode === "dark" ? "#ffffff" : "#000000",
+              width: "50px",
+              height: "50px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: "50%",
+              backgroundColor: mode === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)",
+              color: mode === "dark" ? "primary.main" : "primary.main",
+              fontSize: "32px",
             }}
           >
             {icon}
           </Box>
+
+          {/* Growth Section */}
           <Typography
             variant="subtitle2"
             sx={{
               color: growth > 0 ? "#4caf50" : "#f44336",
               fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+              fontSize: "14px",
             }}
           >
-            {growth > 0 ? `+${growth}%` : `${growth}%`}
+            {growth > 0 ? `▲ +${growth}%` : `▼ ${growth}%`}
           </Typography>
         </Box>
 
@@ -65,12 +83,13 @@ const DashboardCard = ({ title, value, icon, growth }) => {
               textTransform: "uppercase",
               fontSize: "12px",
               marginBottom: "4px",
+              letterSpacing: "0.5px",
             }}
           >
             {title}
           </Typography>
           <Typography
-            variant="h5"
+            variant="h4"
             sx={{
               fontWeight: "bold",
               color: mode === "dark" ? "#ffffff" : "#000000",
