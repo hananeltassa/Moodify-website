@@ -1,6 +1,6 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Box, Button, Tooltip, Typography, MenuItem, Select, TextField, InputAdornment, IconButton, Paper, useTheme,} from "@mui/material";
+import { Box, Button, Tooltip, Typography, MenuItem, Select, TextField, InputAdornment, IconButton, Paper, useTheme } from "@mui/material";
 import BanIcon from "@mui/icons-material/Block";
 import UnbanIcon from "@mui/icons-material/CheckCircle";
 import SearchIcon from "@mui/icons-material/Search";
@@ -21,10 +21,10 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
   );
 
   const columns = [
-    { field: "id", headerName: "ID", width: 40 },
-    { field: "name", headerName: "Name", width: 140 },
+    { field: "id", headerName: "ID", width: 80 },
+    { field: "name", headerName: "Name", width: 168 },
     { field: "email", headerName: "Email", width: 250 },
-    { field: "gender", headerName: "Gender", width: 80 },
+    { field: "gender", headerName: "Gender", width: 100 },
     {
       field: "role",
       headerName: "Role",
@@ -42,6 +42,7 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
             onChange={(e) => onRoleChange(params.row.id, e.target.value)}
             fullWidth
             variant="outlined"
+            disabled={params.row.email === "admin@moodify.com"} // Disable for admin@moodify.com
             sx={{
               fontSize: "14px",
               height: "100%",
@@ -71,37 +72,47 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
           sx={{
             color: params.row.is_banned ? theme.palette.error.main : theme.palette.success.main,
             fontWeight: "bold",
-            textAlign:'center',
-            justifyContent: 'center',
-            display: 'flex', 
-            marginTop:2,
+            textAlign: "center",
+            justifyContent: "center",
+            display: "flex",
+            marginTop: 2,
           }}
         >
           {params.row.is_banned ? "Banned" : "Active"}
         </Typography>
       ),
     },
-    
     {
       field: "action",
       headerName: "Action",
-      width: 200,
+      width: 120,
       renderCell: (params) => (
-        <Tooltip title={params.row.isBanned ? "Unban User" : "Ban User"}>
-          <Button
-            variant="outlined"
-            color={params.row.isBanned ? "success" : "error"}
-            onClick={() => onBanToggle(params.row.id)} // Call the parent handler
-            startIcon={params.row.isBanned ? <UnbanIcon /> : <BanIcon />}
-            sx={{
-              textTransform: "none",
-              fontWeight: "bold",
-              borderRadius: 2,
-              padding: "6px 12px",
-            }}
-          >
-            {params.row.isBanned ? "Unban" : "Ban"}
-          </Button>
+        <Tooltip
+          title={
+            params.row.email === "admin@moodify.com"
+              ? "Action not allowed for this user"
+              : params.row.isBanned
+              ? "Unban User"
+              : "Ban User"
+          }
+        >
+          <Box>
+            <Button
+              variant="outlined"
+              color={params.row.isBanned ? "success" : "error"}
+              onClick={() => onBanToggle(params.row.id)}
+              disabled={params.row.email === "admin@moodify.com"} // Disable for admin@moodify.com
+              startIcon={params.row.isBanned ? <UnbanIcon /> : <BanIcon />}
+              sx={{
+                textTransform: "none",
+                fontWeight: "bold",
+                borderRadius: 2,
+                padding: "6px 12px",
+              }}
+            >
+              {params.row.isBanned ? "Unban" : "Ban"}
+            </Button>
+          </Box>
         </Tooltip>
       ),
     },

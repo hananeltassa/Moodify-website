@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/DashboardLayout";
 import UsersTable from "../../components/UsersTable";
-import { Box, Typography, CircularProgress, Alert, Snackbar,} from "@mui/material";
-import { getAllUsers, updateUserRole, toggleUserBan} from "../../services/userService";
+import { Box, Typography, CircularProgress, Alert, Snackbar } from "@mui/material";
+import { getAllUsers, updateUserRole, toggleUserBan } from "../../services/userService";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -39,7 +39,7 @@ const Users = () => {
       alert("This user's role cannot be modified.");
       return;
     }
-  
+
     try {
       const token = localStorage.getItem("authToken");
       if (!token) {
@@ -47,7 +47,7 @@ const Users = () => {
         return;
       }
       await updateUserRole(token, id, newRole);
-  
+
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
           user.id === id ? { ...user, role: newRole } : user
@@ -82,9 +82,15 @@ const Users = () => {
       setSnackbarOpen(true);
     } catch (err) {
       console.error("Error toggling ban status:", err);
-      setError(err.response?.data?.error || "An unexpected error occurred.");
+  
+      const errorMessage =
+        err.response?.data?.error || "An unexpected error occurred.";
+      setSuccessMessage(errorMessage);
+      setSnackbarOpen(true);
     }
   };
+  
+  
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
@@ -124,14 +130,14 @@ const Users = () => {
           onRoleChange={handleRoleChange}
           onBanToggle={handleBanToggle}
         />
-      </Box>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={3000}
-        onClose={handleSnackbarClose}
-        message={successMessage}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={2000}
+          onClose={handleSnackbarClose}
+          message={successMessage}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }} 
       />
+      </Box>
     </DashboardLayout>
   );
 };
