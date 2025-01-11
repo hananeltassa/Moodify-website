@@ -63,3 +63,20 @@ export const deleteUser = async (token, id) => {
   });
   return response.data;
 };
+
+export const getUserProfile = async (authToken) => {
+  const response = await axios.get(`http://localhost:8080/api/users/profile`, {
+    headers: { Authorization: `Bearer ${authToken}` },
+  });
+  return response.data.user;
+};
+
+export const changeUserPassword = async (authToken, currentPassword, newPassword) => {
+  const response = await axios.put(`http://localhost:8080/api/users/change-password`,
+    { currentPassword, newPassword },
+    {
+      headers: { Authorization: `Bearer ${authToken}` },
+    }
+  );
+  return response.data.message;
+};
