@@ -42,7 +42,7 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
             onChange={(e) => onRoleChange(params.row.id, e.target.value)}
             fullWidth
             variant="outlined"
-            disabled={params.row.email === "admin@moodify.com"} // Disable for admin@moodify.com
+            disabled={params.row.email === "admin@moodify.com"}
             sx={{
               fontSize: "14px",
               height: "100%",
@@ -91,7 +91,7 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
           title={
             params.row.email === "admin@moodify.com"
               ? "Action not allowed for this user"
-              : params.row.isBanned
+              : params.row.is_banned
               ? "Unban User"
               : "Ban User"
           }
@@ -99,10 +99,10 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
           <Box>
             <Button
               variant="outlined"
-              color={params.row.isBanned ? "success" : "error"}
+              color={params.row.is_banned ? "success" : "error"}
               onClick={() => onBanToggle(params.row.id)}
               disabled={params.row.email === "admin@moodify.com"} // Disable for admin@moodify.com
-              startIcon={params.row.isBanned ? <UnbanIcon /> : <BanIcon />}
+              startIcon={params.row.is_banned ? <UnbanIcon /> : <BanIcon />}
               sx={{
                 textTransform: "none",
                 fontWeight: "bold",
@@ -110,7 +110,7 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
                 padding: "6px 12px",
               }}
             >
-              {params.row.isBanned ? "Unban" : "Ban"}
+              {params.row.is_banned ? "Unban" : "Ban"}
             </Button>
           </Box>
         </Tooltip>
