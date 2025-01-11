@@ -41,7 +41,7 @@ const ChartComponent = ({ data = [], title }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: 300,
+            height: 250,
           }}
         >
           {data.length > 0 ? (
@@ -74,7 +74,7 @@ const ChartComponent = ({ data = [], title }) => {
             justifyContent="center"
             alignItems="center"
             spacing={2}
-            mt={3}
+            mt={2}
           >
             {data.map((item) => (
               <Box key={item.id} sx={{ display: "flex", alignItems: "center" }}>
