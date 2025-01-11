@@ -1,99 +1,72 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import DashboardLayout from "../../components/DashboardLayout";
 import UsersTable from "../../components/UsersTable";
 import { Box, Typography, CircularProgress, Alert, Snackbar } from "@mui/material";
+import { setUsers, setLoading, setError, updateRole, toggleBan, setSuccessMessage, clearMessages,} from "../../redux/slices/usersSlice";
 import { getAllUsers, updateUserRole, toggleUserBan } from "../../services/userService";
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const dispatch = useDispatch();
+  const { users, loading, error, successMessage } = useSelector((state) => state.users);
 
-  // Fetch users
   useEffect(() => {
     const fetchUsers = async () => {
+      dispatch(setLoading(true));
       try {
         const token = localStorage.getItem("authToken");
-        if (!token) {
-          setError("Unauthorized. Please log in.");
-          return;
-        }
+        if (!token) throw new Error("Unauthorized. Please log in.");
         const fetchedUsers = await getAllUsers(token);
         //console.log(fetchedUsers);
         setUsers(fetchedUsers);
       } catch (err) {
-        setError(err.message);
+        dispatch(setError(err.message));
       } finally {
-        setLoading(false);
+        dispatch(setLoading(false));
       }
     };
 
     fetchUsers();
-  }, []);
+  }, [dispatch]);
 
   const handleRoleChange = async (id, newRole) => {
+    const token = localStorage.getItem("authToken");
     const user = users.find((user) => user.id === id);
+
     if (user.email === "admin@moodify.com") {
       alert("This user's role cannot be modified.");
       return;
     }
 
     try {
-      const token = localStorage.getItem("authToken");
-      if (!token) {
-        setError("Unauthorized. Please log in.");
-        return;
-      }
+      if (!token) throw new Error("Unauthorized. Please log in.");
       await updateUserRole(token, id, newRole);
-
-      setUsers((prevUsers) =>
-        prevUsers.map((user) =>
-          user.id === id ? { ...user, role: newRole } : user
-        )
-      );
-      setSuccessMessage("User role updated successfully.");
-      setSnackbarOpen(true);
+      dispatch(updateRole({ id, newRole }));
+      dispatch(setSuccessMessage("User role updated successfully."));
     } catch (err) {
-      console.error("Error updating role:", err);
-      setError(err.message);
+      dispatch(setError(err.message || "Failed to update role."));
     }
   };
 
   const handleBanToggle = async (id) => {
+    const token = localStorage.getItem("authToken");
+
     try {
-      const token = localStorage.getItem("authToken");
-      if (!token) {
-        setError("Unauthorized. Please log in.");
-        return;
-      }
-  
+      if (!token) throw new Error("Unauthorized. Please log in.");
       const { user } = await toggleUserBan(token, id);
-  
-      setUsers((prevUsers) =>
-        prevUsers.map((u) =>
-          u.id === id ? { ...u, isBanned: user.is_banned } : u
+      dispatch(toggleBan({ id, isBanned: user.is_banned }));
+      dispatch(
+        setSuccessMessage(
+          `User has been ${user.is_banned ? "banned" : "unbanned"} successfully.`
         )
       );
-      setSuccessMessage(
-        `User has been ${user.is_banned ? "banned" : "unbanned"} successfully.`
-      );
-      setSnackbarOpen(true);
     } catch (err) {
-      console.error("Error toggling ban status:", err);
-  
-      const errorMessage =
-        err.response?.data?.error || "An unexpected error occurred.";
-      setSuccessMessage(errorMessage);
-      setSnackbarOpen(true);
+      dispatch(setError(err.message || "Failed to toggle ban status."));
     }
   };
-  
-  
 
   const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
+    dispatch(clearMessages());
   };
 
   if (loading) {
@@ -125,18 +98,14 @@ const Users = () => {
         <Typography variant="body1" sx={{ mb: 3 }}>
           Manage all registered users below.
         </Typography>
-        <UsersTable
-          rows={users}
-          onRoleChange={handleRoleChange}
-          onBanToggle={handleBanToggle}
-        />
+        <UsersTable rows={users} onRoleChange={handleRoleChange} onBanToggle={handleBanToggle} />
         <Snackbar
-          open={snackbarOpen}
+          open={!!successMessage}
           autoHideDuration={2000}
           onClose={handleSnackbarClose}
           message={successMessage}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }} 
-      />
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        />
       </Box>
     </DashboardLayout>
   );
