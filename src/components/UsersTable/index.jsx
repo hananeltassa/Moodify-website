@@ -14,7 +14,8 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
     setSearchText("");
   };
 
-  const normalizeRole = (role) => role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
+  const normalizeRole = (role) =>
+    role.charAt(0).toUpperCase() + role.slice(1).toLowerCase();
 
   const filteredRows = rows.filter((row) =>
     row.name.toLowerCase().includes(searchText.toLowerCase())
@@ -22,21 +23,35 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
 
   const columns = [
     { field: "id", headerName: "ID", width: 80 },
-    { field: "name", headerName: "Name", width: 168 },
-    { field: "email", headerName: "Email", width: 250 },
+    { field: "name", headerName: "Name", width: 100 },
+    { field: "email", headerName: "Email", width: 230 },
     { field: "gender", headerName: "Gender", width: 100 },
+    {
+      field: "spotifyUser",
+      headerName: "Spotify",
+      width: 100,
+      renderCell: (params) => (
+        <Typography
+          sx={{
+            fontSize: "14px",
+            color: params.row.spotify_id ? "green" : "gray",
+            fontWeight: "bold",
+            textAlign: "center",
+            mt:2,
+            justifyContent: "center",
+            display: "flex",
+          }}
+        >
+          {params.row.spotify_id ? "Yes" : "No"}
+        </Typography>
+      ),
+    },  
     {
       field: "role",
       headerName: "Role",
       width: 100,
       renderCell: (params) => (
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
+        <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
           <Select
             value={normalizeRole(params.row.role)}
             onChange={(e) => onRoleChange(params.row.id, e.target.value)}
@@ -47,7 +62,8 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
               fontSize: "14px",
               height: "100%",
               marginTop: 1,
-              backgroundColor: theme.palette.mode === "dark" ? "#424242" : "#f0f0f0",
+              backgroundColor:
+                theme.palette.mode === "dark" ? "#424242" : "#f0f0f0",
               borderRadius: "8px",
               color: theme.palette.text.primary,
               "& .MuiSelect-select": {
@@ -70,7 +86,9 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
       renderCell: (params) => (
         <Typography
           sx={{
-            color: params.row.is_banned ? theme.palette.error.main : theme.palette.success.main,
+            color: params.row.is_banned
+              ? theme.palette.error.main
+              : theme.palette.success.main,
             fontWeight: "bold",
             textAlign: "center",
             justifyContent: "center",
@@ -101,7 +119,7 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange }) => {
               variant="outlined"
               color={params.row.is_banned ? "success" : "error"}
               onClick={() => onBanToggle(params.row.id)}
-              disabled={params.row.email === "admin@moodify.com"} // Disable for admin@moodify.com
+              disabled={params.row.email === "admin@moodify.com"}
               startIcon={params.row.is_banned ? <UnbanIcon /> : <BanIcon />}
               sx={{
                 textTransform: "none",
