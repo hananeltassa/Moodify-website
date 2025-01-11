@@ -19,31 +19,38 @@ export const getAllUsers = async (token) => {
 };
 
 export const updateUserRole = async (token, id, role) => {
-    try {
-      const response = await axios.put(`http://localhost:8080/api/admin/users/${id}/role`,
-        { role: normalizeRole(role) },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  try {
+    const response = await axios.put(`http://localhost:8080/api/admin/users/${id}/role`,
+      { role: normalizeRole(role) },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
       return response.data;
-    } catch (error) {
-      console.error("Error updating user role:", error.response?.data || error.message);
-      throw new Error(error.response?.data?.error || "Failed to update user role");
-    }
+  } catch (error) {
+    console.error("Error updating user role:", error.response?.data || error.message);
+    throw new Error(error.response?.data?.error || "Failed to update user role");
+  }
 };
 
-
-export const toggleUserBan = async (token, id) => {
-
-    const response = await axios.put(`http://localhost:8080/api/admin/users/${id}/ban`, 
-        {}, 
-        {
+export const toggleUserBan = async (token, userId) => {
+  try {
+    const response = await axios.put(
+      `http://localhost:8080/api/admin/users/${userId}/ban`,
+      {},
+      {
         headers: {
-            Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
-      });
+      }
+    );
     return response.data;
-  };
+  } catch (error) {
+    console.error("Error in toggleUserBan:", error);
+    // Extract error message from response
+    const errorMessage = error.response?.data?.message || "An error occurred while banning the user.";
+    throw new Error(errorMessage);
+  }
+};
