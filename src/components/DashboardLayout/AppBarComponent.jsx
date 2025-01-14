@@ -36,12 +36,13 @@ const AppBarComponent = ({ handleDrawerToggle }) => {
   return (
     <AppBar
       position="fixed"
-      color="primary"
+      color="white"
       sx={{
         width: { sm: `calc(100% - 240px)` },
         ml: { sm: "240px" },
         backdropFilter: "blur(10px)",
         color: mode === "dark" ? "#FFFFFF" : "#000000",
+        borderColor: "gray",
       }}
     >
       <Toolbar
@@ -131,7 +132,7 @@ const AppBarComponent = ({ handleDrawerToggle }) => {
             open={open}
             onClose={handleMenuClose}
             sx={{
-              mt: 1.5,
+              mt: 1.2,
               "& .MuiMenu-paper": {
                 borderRadius: 2,
                 minWidth: 200,

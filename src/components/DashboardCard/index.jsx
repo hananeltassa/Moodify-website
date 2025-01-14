@@ -11,16 +11,15 @@ const DashboardCard = ({ title, value, icon, growth }) => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        boxShadow: mode === "dark" ? "0px 4px 15px rgba(0,0,0,0.6)" : "0px 4px 15px rgba(0,0,0,0.2)",
         borderRadius: "15px",
         height: "160px",
         background: mode === "dark"
           ? "linear-gradient(135deg, #1e1e1e, #2b2b2b)"
           : "linear-gradient(135deg, #ffffff, #f9f9f9)",
-        transition: "transform 0.3s ease, box-shadow 0.3s ease",
+        border: mode === "dark" ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(0,0,0,0.2)",
+        transition: "transform 0.3s ease",
         "&:hover": {
           transform: "translateY(-5px)",
-          boxShadow: mode === "dark" ? "0px 8px 20px rgba(0,0,0,0.8)" : "0px 8px 20px rgba(0,0,0,0.3)",
         },
       }}
     >
