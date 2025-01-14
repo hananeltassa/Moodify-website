@@ -35,7 +35,11 @@ export default function BasicTextFields({ id, label, variant, type = "text", val
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={handleToggleVisibility} edge="end">
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                      {showPassword ? (
+                        <VisibilityOff sx={{ color: 'white' }} />
+                      ) : (
+                        <Visibility sx={{ color: 'white' }} />
+                      )}
                     </IconButton>
                   </InputAdornment>
                 ),
