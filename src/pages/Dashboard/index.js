@@ -2,8 +2,13 @@ import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../components/DashboardLayout";
 import DashboardCard from "../../components/DashboardCard";
 import ChartComponent from "../../components/ChartComponent";
+import MoodBarChart from "../../components/MoodBarChart";
 import { Box, CircularProgress, Alert } from "@mui/material";
-import { getSystemAnalytics, fetchUserGrowthData } from "../../services/analyticsService";
+import {
+  getSystemAnalytics,
+  fetchUserGrowthData,
+  getMoodAndInputTypeStats,
+} from "../../services/analyticsService";
 import cardData from "../../utils/cardData";
 import { prepareGenderData, prepareChallengeData } from "../../utils/analyticsUtils";
 import UserGrowthChart from "../../components/UserGrowthChart";
@@ -11,6 +16,7 @@ import UserGrowthChart from "../../components/UserGrowthChart";
 const Dashboard = () => {
   const [analytics, setAnalytics] = useState(null);
   const [userGrowthData, setUserGrowthData] = useState(null);
+  const [moodStats, setMoodStats] = useState(null); // For mood and input type stats
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -19,13 +25,15 @@ const Dashboard = () => {
       try {
         const token = localStorage.getItem("authToken");
 
-        const [analyticsData, growthData] = await Promise.all([
+        const [analyticsData, growthData, moodStatsData] = await Promise.all([
           getSystemAnalytics(token),
           fetchUserGrowthData(token),
+          getMoodAndInputTypeStats(token),
         ]);
 
         setAnalytics(analyticsData.analytics);
         setUserGrowthData(growthData);
+        setMoodStats(moodStatsData); // Save mood and input type stats
       } catch (err) {
         setError(err.message || "Error fetching data");
       } finally {
@@ -62,7 +70,7 @@ const Dashboard = () => {
 
   // Prepare data for the BarChart
   const barChartData = userGrowthData?.map((entry) => ({
-    month: new Date(entry.date).toLocaleString('default', { month: 'short' }),
+    month: new Date(entry.date).toLocaleString("default", { month: "short" }),
     rainfall: parseInt(entry.user_count, 10),
   }));
 
@@ -105,10 +113,10 @@ const Dashboard = () => {
           }}
         >
           <ChartComponent data={genderData} title="Gender Distribution" />
-          <ChartComponent data={challengeData} title="Challenges Overview" />
-
-          {/* User Growth Bar Chart */}
           <UserGrowthChart data={barChartData} />
+          <ChartComponent data={challengeData} title="Challenges Overview" />
+          
+          <MoodBarChart data={moodStats?.moodCounts} />
         </Box>
       </Box>
     </DashboardLayout>

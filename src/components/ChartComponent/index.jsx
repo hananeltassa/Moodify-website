@@ -15,10 +15,11 @@ const ChartComponent = ({ data = [], title }) => {
     <Card
       sx={{
         backgroundColor: mode === "dark" ? "#1e1e1e" : "#ffffff",
-        p: 2,
-        borderRadius: 2,
-        border: mode === "dark" ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(0,0,0,0.2)",
+        p: 1,
+        borderRadius: 1,
+        border: mode === "dark" ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(0,0,0,0.1)", 
         color: mode === "dark" ? "#ffffff" : "#000000",
+        height:"400px",
       }}
     >
       <CardContent>
@@ -42,6 +43,7 @@ const ChartComponent = ({ data = [], title }) => {
             justifyContent: "center",
             alignItems: "center",
             height: 250,
+            ml: 10
           }}
         >
           {data.length > 0 ? (

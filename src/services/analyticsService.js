@@ -23,3 +23,11 @@ export const fetchUserGrowthData = async (token) => {
     throw new Error(error.response?.data?.error || "Error fetching user growth data");
   }
 };
+
+
+export const getMoodAndInputTypeStats = async (token) => {
+  const response = await axios.get(`http://localhost:8080/api/admin/mood-stats`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};

@@ -17,10 +17,11 @@ const UserGrowthChart = ({ data }) => {
     <Card
       sx={{
         backgroundColor: mode === "dark" ? "#1e1e1e" : "#ffffff",
-        p: 2,
-        borderRadius: 2,
+        p: 1,
+        borderRadius: 1,
         border: mode === "dark" ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(0,0,0,0.2)",
         color: mode === "dark" ? "#ffffff" : "#000000",
+        height:"400px"
       }}
     >
       <CardContent>
@@ -29,7 +30,7 @@ const UserGrowthChart = ({ data }) => {
           variant="h6"
           sx={{
             fontWeight: "bold",
-            mb: 2,
+            mb: 0,
             textAlign: "left",
             color: mode === "dark" ? "#ffffff" : "#000000",
           }}
