@@ -17,7 +17,7 @@ const ChartComponent = ({ data = [], title }) => {
         backgroundColor: mode === "dark" ? "#1e1e1e" : "#ffffff",
         p: 2,
         borderRadius: 2,
-        boxShadow: mode === "dark" ? "0 4px 10px rgba(0, 0, 0, 0.7)" : "0 4px 10px rgba(0, 0, 0, 0.3)",
+        border: mode === "dark" ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(0,0,0,0.2)",
         color: mode === "dark" ? "#ffffff" : "#000000",
       }}
     >

@@ -19,10 +19,7 @@ const UserGrowthChart = ({ data }) => {
         backgroundColor: mode === "dark" ? "#1e1e1e" : "#ffffff",
         p: 2,
         borderRadius: 2,
-        boxShadow:
-          mode === "dark"
-            ? "0 4px 10px rgba(0, 0, 0, 0.8)"
-            : "0 4px 10px rgba(0, 0, 0, 0.3)",
+        border: mode === "dark" ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(0,0,0,0.2)",
         color: mode === "dark" ? "#ffffff" : "#000000",
       }}
     >
@@ -52,9 +49,7 @@ const UserGrowthChart = ({ data }) => {
           {data && data.length > 0 ? (
             <BarChart
               dataset={data}
-              xAxis={[
-                { scaleType: "band", dataKey: "month", label: "Month" },
-              ]}
+              xAxis={[{ scaleType: "band", dataKey: "month", label: "Month" }]}
               series={[
                 {
                   dataKey: "rainfall",
