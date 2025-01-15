@@ -19,7 +19,7 @@ const UserGrowthChart = ({ data }) => {
         backgroundColor: mode === "dark" ? "#1e1e1e" : "#ffffff",
         p: 1,
         borderRadius: 1,
-        border: mode === "dark" ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(0,0,0,0.2)",
+        border: mode === "dark" ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(0,0,0,0.1)",
         color: mode === "dark" ? "#ffffff" : "#000000",
         height:"400px"
       }}
