@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AppBar, Toolbar, IconButton, Typography, Avatar, Tooltip, Box, Menu, MenuItem, ListItemIcon } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -94,20 +93,6 @@ const AppBarComponent = ({ handleDrawerToggle }) => {
               }}
             >
               {mode === "dark" ? <Brightness7Icon /> : <Brightness4Icon />}
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Notifications">
-            <IconButton
-              color="inherit"
-              sx={{
-                mr: 2,
-                "&:hover": {
-                  color: mode === "dark" ? "#FF6100" : "#FF8E53",
-                  transition: "color 0.3s ease",
-                },
-              }}
-            >
-              <NotificationsIcon />
             </IconButton>
           </Tooltip>
           <Tooltip title="Profile">
