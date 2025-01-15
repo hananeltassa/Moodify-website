@@ -148,7 +148,7 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange, onDeleteUser }) => {
     <Paper
       elevation={3}
       sx={{
-        height: 600,
+        height: 615,
         width: "100%",
         borderRadius: 4,
         overflow: "hidden",
@@ -212,7 +212,7 @@ const UsersTable = ({ rows, onBanToggle, onRoleChange, onDeleteUser }) => {
         <DataGrid
           rows={filteredRows}
           columns={columns}
-          pageSize={5}
+          pageSize={12}
           disableSelectionOnClick
           checkboxSelection
           sx={{
